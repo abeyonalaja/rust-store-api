@@ -4,7 +4,7 @@ use dotenv::dotenv;
 use std::env;
 
 pub fn establish_connection() -> PgConnection {
-    dotenv().ok;
+    dotenv().ok();
 
     // Load the database env variable int the database url
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
