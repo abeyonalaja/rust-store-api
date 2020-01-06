@@ -1,6 +1,14 @@
 extern crate actix_web;
 use actix_web::{web, App, HttpRequest, HttpResponse, HttpServer};
 
+#[macro_use]
+extern crate diesel;
+extern crate dotenv;
+
+pub mod db_connection;
+pub mod models;
+pub mod schema;
+
 // index handler,
 // returns a json response with an ok status
 fn index(_req: HttpRequest) -> HttpResponse {
