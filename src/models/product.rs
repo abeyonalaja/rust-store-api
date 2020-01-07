@@ -1,6 +1,5 @@
-use crate::db_connection::establish_connection;
 use crate::schema::products;
-use crate::schema::products::dsl::*;
+
 use diesel::QueryDsl;
 use diesel::RunQueryDsl;
 
@@ -12,11 +11,28 @@ pub struct Product {
     pub price: Option<i32>,
 }
 
+impl Product {
+    pub fn find(id: &i32) -> Result<Product, diesel::result::Error> {
+        use crate::db_connection::establish_connection;
+        use diesel::QueryDsl;
+        use diesel::RunQueryDsl;
+
+        let connection = establish_connection();
+
+        products::table.find(id).first(&connection)
+    }
+}
+
 #[derive(Serialize, Deserialize)]
 pub struct ProductList(pub Vec<Product>);
 
 impl ProductList {
     pub fn list() -> Self {
+        use crate::db_connection::establish_connection;
+        use crate::schema::products::dsl::*;
+        use diesel::QueryDsl;
+        use diesel::RunQueryDsl;
+
         let connection = establish_connection();
 
         let result = products

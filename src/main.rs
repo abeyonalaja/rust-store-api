@@ -35,11 +35,16 @@ fn main() {
     let sys = actix::System::new("mystore");
 
     HttpServer::new(|| {
-        App::new().service(
-            web::resource("/products")
-                .route(web::get().to_async(handlers::products::index))
-                .route(web::post().to_async(handlers::products::create)),
-        )
+        App::new()
+            .service(
+                web::resource("/products")
+                    .route(web::get().to_async(handlers::products::index))
+                    .route(web::post().to_async(handlers::products::create)),
+            )
+            .service(
+                web::resource("/products/{id}")
+                    .route(web::get().to_async(handlers::products::show)),
+            )
     })
     .bind("127.0.0.1:8088")
     .unwrap()
