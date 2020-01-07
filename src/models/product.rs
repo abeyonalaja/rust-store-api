@@ -18,6 +18,32 @@ impl Product {
 
         products::table.find(id).first(&connection)
     }
+
+    pub fn destroy(id: &i32) -> Result<(), diesel::result::Error> {
+        use crate::db_connection::establish_connection;
+        use crate::schema::products::dsl;
+        use diesel::QueryDsl;
+        use diesel::RunQueryDsl;
+
+        let connection = establish_connection();
+
+        diesel::delete(dsl::products.find(id)).execute(&connection)?;
+        Ok(())
+    }
+
+    pub fn update(id: &i32, new_product: &NewProduct) -> Result<(), diesel::result::Error> {
+        use crate::db_connection::establish_connection;
+        use crate::schema::products::dsl;
+        use diesel::QueryDsl;
+        use diesel::RunQueryDsl;
+
+        let connection = establish_connection();
+
+        diesel::update(dsl::products.find(id))
+            .set(new_product)
+            .execute(&connection)?;
+        Ok(())
+    }
 }
 
 #[derive(Serialize, Deserialize)]
@@ -41,7 +67,7 @@ impl ProductList {
     }
 }
 
-#[derive(Insertable, Deserialize)]
+#[derive(Insertable, Deserialize, AsChangeset)]
 #[table_name = "products"]
 pub struct NewProduct {
     pub name: Option<String>,
