@@ -1,8 +1,5 @@
 use crate::schema::products;
 
-use diesel::QueryDsl;
-use diesel::RunQueryDsl;
-
 #[derive(Queryable, Serialize, Deserialize)]
 pub struct Product {
     pub id: i32,
