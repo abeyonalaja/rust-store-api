@@ -20,18 +20,7 @@ extern crate actix_web;
 extern crate futures;
 use actix_web::{web, App, HttpServer};
 
-// index handler,
-// returns a json response with an ok status
-//fn index(_req: HttpRequest) -> HttpResponse {
-//    HttpResponse::Ok().json("Hello world!")
-//}
-
 fn main() {
-    //    HttpServer::new(|| App::new().service(web::resource("/").route(web::get().to_async(index))))
-    //        .bind("127.0.0.1:8088")
-    //        .unwrap()
-    //        .run();
-
     let sys = actix::System::new("mystore");
 
     HttpServer::new(|| {
@@ -43,7 +32,9 @@ fn main() {
             )
             .service(
                 web::resource("/products/{id}")
-                    .route(web::get().to_async(handlers::products::show)),
+                    .route(web::get().to_async(handlers::products::show))
+                    .route(web::delete().to_async(handlers::products::destroy))
+                    .route(web::patch().to_async(handlers::products::update)),
             )
     })
     .bind("127.0.0.1:8088")
