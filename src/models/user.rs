@@ -57,7 +57,7 @@ pub struct RegisterUser {
 }
 
 impl RegisterUser {
-    pub fn validate(self) -> Result<RegisterUser, MyStoreError> {
+    pub fn validates(self) -> Result<RegisterUser, MyStoreError> {
         if self.password == self.password_confirmation {
             Ok(self)
         } else {
