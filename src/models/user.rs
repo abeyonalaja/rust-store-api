@@ -3,7 +3,7 @@ use crate::schema::users;
 use bcrypt::{hash, DEFAULT_COST};
 use chrono::Local;
 use chrono::NaiveDateTime;
-use diesel::{PgConnection, RunQueryDsl};
+use diesel::PgConnection;
 
 #[derive(Debug, Serialize, Deserialize, Queryable, Insertable)]
 #[table_name = "users"]
@@ -37,7 +37,7 @@ impl User {
             .values(NewUser {
                 email: register_user.email,
                 company: register_user.company,
-                password: Self.hash_password(register_user.password)?,
+                password: Self::hash_password(register_user.password)?,
                 created_at: Local::now().naive_local(),
             })
             .get_result(connection)?)
@@ -75,7 +75,7 @@ pub struct AuthUser {
 }
 
 impl AuthUser {
-    pub fn login(&self, connection: &pgConnection) -> Result<User, MyStoreError> {
+    pub fn login(&self, connection: &PgConnection) -> Result<User, MyStoreError> {
         use crate::schema::users::dsl::email;
         use bcrypt::verify;
         use diesel::ExpressionMethods;
