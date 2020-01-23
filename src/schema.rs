@@ -4,6 +4,7 @@ table! {
         name -> Varchar,
         stock -> Float8,
         price -> Nullable<Int4>,
+        description -> Nullable<Varchar>,
     }
 }
 
