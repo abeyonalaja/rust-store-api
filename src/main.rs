@@ -49,6 +49,7 @@ fn main() {
             ))
             .wrap(
                 Cors::new()
+                    .send_wildcard()
                     .allowed_methods(vec!["GET", "POST", "PUT", "DELETE"])
                     .allowed_headers(vec![
                         header::AUTHORIZATION,

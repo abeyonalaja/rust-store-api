@@ -1,8 +1,12 @@
 [package]
-name = "rust-store-api"
+name = "mystore"
 version = "0.1.0"
 authors = ["Abey Onalaja <Abey.onalaja@gmail.com>"]
 edition = "2018"
+
+[lib]
+name = "mystore_lib"
+path = "src/lib.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -26,6 +30,8 @@ hex = "0.3.2"
 actix-identity = "0.1.0"
 actix-cors = "0.1.0"
 env_logger = "0.6.1"
+log = "0.4.6"
+actix-http = "0.2.1"
 
 [dev-dependencies]
 bytes = "0.4"
