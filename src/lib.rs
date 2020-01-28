@@ -10,6 +10,7 @@ extern crate actix;
 extern crate actix_web;
 extern crate bcrypt;
 extern crate csrf_token;
+extern crate diesel_full_text_search;
 extern crate jsonwebtoken as jwt;
 
 #[macro_use]

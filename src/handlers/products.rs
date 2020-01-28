@@ -1,4 +1,5 @@
 use crate::db_connection::{PgPool, PgPooledConnection};
+use crate::handlers::LoggedUser;
 use crate::models::product::{NewProduct, Product, ProductList};
 use actix_web::{web, HttpRequest, HttpResponse};
 
@@ -9,9 +10,19 @@ fn pg_pool_handler(pool: web::Data<PgPool>) -> Result<PgPooledConnection, HttpRe
 
 // This is calling the list method on ProductList and
 // serializing it to a json response
-pub fn index(_req: HttpRequest, pool: web::Data<PgPool>) -> Result<HttpResponse, HttpResponse> {
+#[derive(Deserialize)]
+pub struct ProductSearch {
+    pub search: String,
+}
+
+pub fn index(
+    _user: LoggedUser,
+    pool: web::Data<PgPool>,
+    product_search: web::Query<ProductSearch>,
+) -> Result<HttpResponse, HttpResponse> {
     let pg_pool = pg_pool_handler(pool)?;
-    Ok(HttpResponse::Ok().json(ProductList::list(&pg_pool)))
+    let search = &product_search.search;
+    Ok(HttpResponse::Ok().json(ProductList::list(&pg_pool, search)))
 }
 
 pub fn create(
